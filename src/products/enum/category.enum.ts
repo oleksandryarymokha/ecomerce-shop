@@ -1,5 +1,5 @@
 export enum Category {
   Smartphones = 'Smartphones',
-  laptops = 'Laptops',
+  Laptops = 'Laptops',
   Tablets = 'Tablets',
 }
