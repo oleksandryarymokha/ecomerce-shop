@@ -1,9 +1,30 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { Product } from './product.entity';
 import { Category } from './enum/category.enum';
 
 @Controller('products')
 export class ProductController {
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() product: Product): Product {
+    const prod1: Product = new Product();
+    prod1.name = product.name;
+    prod1.category = product.category;
+    prod1.price = product.price;
+    return product;
+  }
+
   @Get()
   getAllProducts(): Product[] {
     // временно возвращаем тестовый продукт
@@ -36,12 +57,29 @@ export class ProductController {
     return [product1, product2];
   }
 
-  @Post()
-  create(category: Category, name: string, price: number): Product {
+  @Get(':id')
+  getProductById(@Param('id', ParseIntPipe) id: number): Product {
     const product: Product = new Product();
-    product.name = name;
-    product.category = category;
-    product.price = price;
+    product.name = 'Samsung Galaxy S24';
+    product.price = 1200;
+    product.category = Category.Smartphones;
+    console.log('Products ID: ', id);
     return product;
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() product: Product,
+  ): void {
+    console.log('Patched id: ', id);
+    console.log('Patched product: ', product);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteById(@Param('id', ParseIntPipe) id: number): void {
+    console.log('Deleted product by id: ', id);
   }
 }

@@ -15,6 +15,7 @@ import { Customer } from './customer.entity';
 @Controller('customers')
 export class CustomerController {
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() customer: Customer): Customer {
     console.log('Saved customer:', customer);
     return customer;
