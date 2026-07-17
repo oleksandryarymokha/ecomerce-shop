@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { Product } from './product.entity';
 import { Category } from './enum/category.enum';
 
@@ -34,5 +34,14 @@ export class ProductController {
       isActive: true,
     };
     return [product1, product2];
+  }
+
+  @Post()
+  create(category: Category, name: string, price: number): Product {
+    const product: Product = new Product();
+    product.name = name;
+    product.category = category;
+    product.price = price;
+    return product;
   }
 }
