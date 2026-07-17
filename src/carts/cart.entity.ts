@@ -4,6 +4,6 @@ import { Customer } from '../customers/customer.entity';
 export class Cart {
   id: number;
   customer: Customer;
-  products: Position[];
+  positions: Position[];
   totalPrice: number;
 }
