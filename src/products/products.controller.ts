@@ -14,7 +14,7 @@ import { Product } from './product.entity';
 import { Category } from './enum/category.enum';
 
 @Controller('products')
-export class ProductController {
+export class ProductsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() product: Product): Product {
