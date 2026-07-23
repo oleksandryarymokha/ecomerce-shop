@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
+import { Product } from './product.entity';
 
 @Injectable()
-export class CustomersRepository {
+export class ProductsRepository {
   constructor(
-    @InjectRepository(Customer)
-    private readonly repository: Repository<Customer>,
+    @InjectRepository(Product)
+    private readonly repository: Repository<Product>,
   ) {}
-  async save(customer: Customer): Promise<Customer> {
-    return this.repository.save(customer);
+  async save(product: Product): Promise<Product> {
+    return this.repository.save(product);
   }
-  async findAllActive(): Promise<Customer[]> {
+  async findAllActive(): Promise<Product[]> {
     return this.repository.findBy({ isActive: true });
   }
-  async findById(id: number): Promise<Customer | null> {
+  async findById(id: number): Promise<Product | null> {
     return this.repository.findOneBy({ id });
   }
   async deleteById(id: number): Promise<void> {
