@@ -4,12 +4,12 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Customer {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
-  @Column()
+  @Column({ name: 'name', nullable: false, unique: false })
   name: string;
-  @Column()
+  @Column({ name: 'email', nullable: false, unique: true })
   email: string;
-  @Column()
+  @Column({ name: 'phone', nullable: false, unique: true })
   phone: string;
-  @Column()
+  @Column({ name: 'isActive', nullable: false, unique: false })
   isActive: boolean;
 }

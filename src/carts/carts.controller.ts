@@ -13,14 +13,6 @@ import {
 import { Cart } from './cart.entity';
 import { Customer } from '../customers/customer.entity';
 
-@Controller('carts')
-export class CartController {
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  create(@Body() cart: Cart): Cart {
-    console.log('Saved cart:', cart);
-    return cart;
-  }
 
   @Get()
   getAll(): Cart[] {

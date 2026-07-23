@@ -3,9 +3,25 @@ import { ProductsModule } from './products/products.module';
 import { CustomerModule } from './customers/customers.module';
 import { PositionModule } from './positions/positions.module';
 import { CartModule } from './carts/carts.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [ProductsModule, CustomerModule, PositionModule, CartModule],
+  imports: [
+    ProductsModule,
+    CustomerModule,
+    PositionModule,
+    CartModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'qwerty123',
+      database: 'ecomerce-shop',
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+  ],
   controllers: [],
   providers: [],
 })
