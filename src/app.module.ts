@@ -5,8 +5,6 @@ import { PositionModule } from './positions/positions.module';
 import { CartModule } from './carts/carts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-// postgresql://postgres:qwerty123@localhost:5432
-
 @Module({
   imports: [
     ProductsModule,
