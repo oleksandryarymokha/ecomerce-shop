@@ -1,6 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from './enum/category.enum';
-
+@Entity('Products')
 export class Product {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
@@ -11,10 +11,10 @@ export class Product {
     enum: Category,
   })
   category: Category;
-  @Column()
+  @Column({ name: 'name', nullable: false, unique: false })
   name: string;
-  @Column()
+  @Column({ name: 'price', nullable: false, unique: false })
   price: number;
-  @Column()
+  @Column({ name: 'isActive', nullable: false, unique: false })
   isActive: boolean;
 }
