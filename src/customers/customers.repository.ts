@@ -9,8 +9,8 @@ export class CustomersRepository {
     @InjectRepository(Customer)
     private readonly repository: Repository<Customer>,
   ) {}
-  async save(user: Customer): Promise<Customer> {
-    return this.repository.save(user);
+  async save(customer: Customer): Promise<Customer> {
+    return this.repository.save(customer);
   }
   async findAllActive(): Promise<Customer[]> {
     return this.repository.findBy({ isActive: true });
