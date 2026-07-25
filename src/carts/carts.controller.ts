@@ -13,7 +13,7 @@ import {
 import { Cart } from './cart.entity';
 import { Customer } from '../customers/customer.entity';
 
-
+  @Controller()
   @Get()
   getAll(): Cart[] {
     const vasiaCart: Cart = new Cart();
