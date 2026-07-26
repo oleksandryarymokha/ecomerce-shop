@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,10 +13,19 @@ import {
 export class Cart {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
+
   @ManyToOne((): typeof Customer => Customer, { nullable: false })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
+
+  @OneToMany(() => Position, (position) => position.cart)
   positions: Position[];
-  @Column('total_price')
+
+  @Column({
+    name: 'total_price',
+    nullable: false,
+    type: 'decimal',
+    unique: false,
+  })
   totalPrice: number;
 }
