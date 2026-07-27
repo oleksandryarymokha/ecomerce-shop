@@ -1,15 +1,18 @@
 import { Product } from '../products/product.entity';
 import { Cart } from '../carts/cart.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-//@Entity('positions')
+@Entity('positions')
 export class Position {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
-  @Column()
+
+  @ManyToOne((): typeof Product => Product, { nullable: false })
   product: Product;
-  @Column()
+
+  @Column({ name: 'quantity', nullable: false, unique: false })
   quantity: number;
-  @ManyToOne((): typeof Cart => Cart)
+
+  @ManyToOne((): typeof Cart => Cart, { nullable: false })
   cart: Cart;
 }
