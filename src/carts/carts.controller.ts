@@ -12,29 +12,37 @@ import {
 } from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { Customer } from '../customers/customer.entity';
+import { CartService } from './carts.service';
 
-  @Controller()
+@Controller('carts')
+export class CartsController {
+  constructor(private readonly cartService: CartService) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() cart: Cart): Promise<Cart> {
+    return await this.cartService.create(cart);
+  }
+
   @Get()
-  getAll(): Cart[] {
-    const vasiaCart: Cart = new Cart();
-    vasiaCart.totalPrice = 500;
-    return [vasiaCart];
+  async getAll(): Promise<Cart[]> {
+    return await this.cartService.findAllCarts();
   }
 
   @Get(':id')
-  getCustomerById(@Param('id', ParseIntPipe) id: number): Cart {
-    const vasiaCart: Cart = new Cart();
-    vasiaCart.id = id;
-    vasiaCart.customer = new Customer();
-    console.log('Cart Id:', id);
-    return vasiaCart;
+  async getCartById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Cart[]> {
+    return await this.cartService.findById(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  update(@Param('id', ParseIntPipe) id: number, @Body() cart: Cart): void {
-    console.log('Id:', id);
-    console.log('New:', cart);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() cart: Cart,
+  ): Promise<void> {
+    return await this.cartService.update(id, cart);
   }
 
   @Delete(':id')
