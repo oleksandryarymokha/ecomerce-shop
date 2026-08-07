@@ -1,7 +1,6 @@
 import { Position } from '../positions/position.entity';
 import { Customer } from '../customers/customer.entity';
 import {
-  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -21,11 +20,14 @@ export class Cart {
   @OneToMany(() => Position, (position) => position.cart)
   positions: Position[];
 
-  @Column({
-    name: 'total_price',
-    nullable: false,
-    type: 'decimal',
-    unique: false,
-  })
-  totalPrice: number;
+  // ?
+  // @Column({
+  //   name: 'total_price',
+  //   nullable: false,
+  //   type: 'decimal',
+  //   unique: false,
+  // })
+  // totalPrice: number;
+
+  // TODO add property discount, date
 }

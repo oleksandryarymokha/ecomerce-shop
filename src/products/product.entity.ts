@@ -11,10 +11,13 @@ export class Product {
     enum: Category,
   })
   category: Category;
-  @Column({ name: 'name', nullable: false, unique: false })
+
+  @Column({ name: 'name', nullable: false, unique: true })
   name: string;
+
   @Column({ name: 'price', nullable: false, unique: false })
   price: number;
+
   @Column({ name: 'isActive', nullable: false, unique: false })
   isActive: boolean;
 }
