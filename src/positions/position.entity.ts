@@ -13,6 +13,6 @@ export class Position {
   @Column({ name: 'quantity', nullable: false, unique: false })
   quantity: number;
 
-  @ManyToOne((): typeof Cart => Cart, (cart) => cart.positions)
+  @ManyToOne((): typeof Cart => Cart)
   cart: Cart;
 }

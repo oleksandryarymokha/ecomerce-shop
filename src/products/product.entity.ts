@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from './enum/category.enum';
-@Entity('Products')
+@Entity('products')
 export class Product {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;

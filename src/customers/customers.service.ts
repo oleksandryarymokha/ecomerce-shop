@@ -11,10 +11,10 @@ export class CustomersService {
   }
 
   async getAllCutomers(): Promise<Customer[]> {
-    return await this.customerRepository.getAllCustomers();
+    return await this.customerRepository.findAllActive();
   }
 
   async getCustomerById(id: number): Promise<Customer | null> {
-    return await this.customerRepository.getCustomerById(id);
+    return await this.customerRepository.findById(id);
   }
 }

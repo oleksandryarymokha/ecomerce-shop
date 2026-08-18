@@ -11,7 +11,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { Cart } from './cart.entity';
-import { Customer } from '../customers/customer.entity';
 import { CartService } from './carts.service';
 
 @Controller('carts')
@@ -30,9 +29,7 @@ export class CartsController {
   }
 
   @Get(':id')
-  async getCartById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<Cart[]> {
+  async getCartById(@Param('id', ParseIntPipe) id: number): Promise<Cart[]> {
     return await this.cartService.findById(id);
   }
 

@@ -17,7 +17,7 @@ export class Cart {
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
-  @OneToMany(() => Position, (position) => position.cart)
+  @OneToMany((): typeof Position => Position, (position) => position.cart)
   positions: Position[];
 
   // ?

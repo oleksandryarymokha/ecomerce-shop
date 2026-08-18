@@ -11,18 +11,18 @@ export class CartsRepository {
   ) {}
 
   async save(cart: Cart): Promise<Cart> {
-    return await this.repository.save(cart);
+    return this.repository.save(cart);
   }
 
   async findAllActiveCarts(): Promise<Cart[]> {
-    return await this.repository.findBy({});
+    return this.repository.findBy({});
   }
 
   async findById(id: number): Promise<Cart[]> {
-    return await this.repository.findBy({ id });
+    return this.repository.findBy({ id });
   }
 
   async update(id: number, cart: Cart): Promise<void> {
-    return await this.repository.update(id, cart);
+    await this.repository.update(id, cart);
   }
 }
