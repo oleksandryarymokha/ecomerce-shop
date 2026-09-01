@@ -11,13 +11,14 @@ import {
   Post,
 } from '@nestjs/common';
 import { Customer } from './customer.entity';
+import { CustomerSaveDto } from './dto/customer.save-dto';
+import { CustomerDto } from './dto/customer.dto';
 
 @Controller('customers')
 export class CustomerController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() customer: Customer): Customer {
-    console.log('Saved customer:', customer);
+  create(@Body() customer: CustomerSaveDto): CustomerDto {
     return customer;
   }
 
