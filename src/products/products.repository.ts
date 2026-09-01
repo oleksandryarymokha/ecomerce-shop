@@ -9,15 +9,19 @@ export class ProductsRepository {
     @InjectRepository(Product)
     private readonly repository: Repository<Product>,
   ) {}
+
   async save(product: Product): Promise<Product> {
     return this.repository.save(product);
   }
+
   async findAllActive(): Promise<Product[]> {
     return this.repository.findBy({ isActive: true });
   }
+
   async findById(id: number): Promise<Product | null> {
     return this.repository.findOneBy({ id });
   }
+
   async deleteById(id: number): Promise<void> {
     await this.repository.delete(id);
   }
