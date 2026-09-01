@@ -15,6 +15,7 @@ export class CustomersService {
 
   async create(customerSaveDto: CustomerSaveDto): Promise<CustomerDto> {
     const entity = this.mapper.mapDtoToEntity(customerSaveDto);
+    entity.isActive = true;
     await this.customerRepository.save(entity);
     return this.mapper.mapEntityToDto(entity);
   }
