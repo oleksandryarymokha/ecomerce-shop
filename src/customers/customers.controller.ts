@@ -10,48 +10,45 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Customer } from './customer.entity';
 import { CustomerSaveDto } from './dto/customer.save-dto';
 import { CustomerDto } from './dto/customer.dto';
+import { CustomersService } from './customers.service';
+import { CustomerUpdateDto } from './dto/customer.update-dto';
 
 @Controller('customers')
 export class CustomerController {
+  constructor(private readonly service: CustomersService) {}
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() customer: CustomerSaveDto): CustomerDto {
-    return customer;
+  async create(@Body() customerSaveDto: CustomerSaveDto): Promise<CustomerDto> {
+    return await this.service.create(customerSaveDto);
   }
 
   @Get()
-  getAll(): Customer[] {
-    const vasia: Customer = new Customer();
-    vasia.name = 'Vasia';
-    const petia: Customer = new Customer();
-    petia.name = 'Petia';
-    return [vasia, petia];
+  async getAll(): Promise<CustomerDto[]> {
+    return await this.service.getAllCustomers();
   }
 
   @Get(':id')
-  getCustomerById(@Param('id', ParseIntPipe) id: number): Customer {
-    const petia: Customer = new Customer();
-    petia.name = 'Petia';
-    console.log('Id:', id);
-    return petia;
+  async getCustomerById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<CustomerDto> {
+    return await this.service.getActiveCustomerDtoById(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() customer: Customer,
-  ): void {
-    console.log('Id:', id);
-    console.log('New:', customer);
+    @Body() update: CustomerUpdateDto,
+  ): Promise<void> {
+    await this.service.updatePhone(id, update);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteById(@Param('id', ParseIntPipe) id: number): void {
-    console.log('Delete id:', id);
+  async deleteById(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.service.deleteById(id);
   }
 }
