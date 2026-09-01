@@ -11,75 +11,42 @@ import {
   Post,
 } from '@nestjs/common';
 import { Product } from './product.entity';
-import { Category } from './enum/category.enum';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private readonly service: ProductsService) {}
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() product: Product): Product {
-    const prod1: Product = new Product();
-    prod1.name = product.name;
-    prod1.category = product.category;
-    prod1.price = product.price;
-    return product;
+  create(@Body() product: Product): Promise<Product> {
+    return this.service.create(product);
   }
 
   @Get()
-  getAllProducts(): Product[] {
-    // временно возвращаем тестовый продукт
-    const product1: {
-      id: number;
-      name: string;
-      category: Category;
-      price: number;
-      isActive: boolean;
-    } = {
-      id: 1,
-      name: 'Samsung Galaxy S24',
-      category: Category.Smartphones,
-      price: 1100,
-      isActive: true,
-    };
-    const product2: {
-      id: number;
-      name: string;
-      category: Category;
-      price: number;
-      isActive: boolean;
-    } = {
-      id: 2,
-      name: 'Lenovo T14',
-      category: Category.Laptops,
-      price: 2000,
-      isActive: true,
-    };
-    return [product1, product2];
+  getAllProducts(): Promise<Product[]> {
+    return this.service.getAllProducts();
   }
 
   @Get(':id')
-  getProductById(@Param('id', ParseIntPipe) id: number): Product {
-    const product: Product = new Product();
-    product.name = 'Samsung Galaxy S24';
-    product.price = 1200;
-    product.category = Category.Smartphones;
-    console.log('Products ID: ', id);
-    return product;
+  getProductById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Product | null> {
+    return this.service.findById(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() product: Product,
-  ): void {
-    console.log('Patched id: ', id);
-    console.log('Patched product: ', product);
+  ): Promise<void> {
+    await this.service.update(id, product);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteById(@Param('id', ParseIntPipe) id: number): void {
-    console.log('Deleted product by id: ', id);
+  async deleteById(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.service.deleteById(id);
   }
 }
