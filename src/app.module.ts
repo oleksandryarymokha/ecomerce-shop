@@ -7,10 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    ProductsModule,
+    CartModule,
     CustomerModule,
     PositionModule,
-    CartModule,
+    ProductsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
