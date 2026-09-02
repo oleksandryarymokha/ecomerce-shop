@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { Position } from './position.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,6 +12,17 @@ export class PositionsRepository {
 
   async save(position: Position): Promise<Position> {
     return this.repository.save(position);
+  }
+
+  async findAll(cartId: number): Promise<Position[]> {
+    return await this.repository.find({
+      relations: {
+        cart: true,
+      },
+      where: {
+        cart: Equal(cartId),
+      },
+    });
   }
 
   async findById(id: number): Promise<Position | null> {
