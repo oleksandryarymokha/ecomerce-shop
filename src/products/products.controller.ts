@@ -10,10 +10,10 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 import { ProductSaveDto } from './dto/product.save-dto';
 import { ProductDto } from './dto/product.dto';
+import { ProductUpdateDto } from './dto/product.update-dto';
 
 @Controller('products')
 export class ProductsController {
@@ -26,22 +26,22 @@ export class ProductsController {
   }
 
   @Get()
-  getAllProducts(): Promise<Product[]> {
+  getAllProducts(): Promise<ProductDto[]> {
     return this.service.getAllProducts();
   }
 
   @Get(':id')
-  getProductById(
+  async getProductById(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<Product | null> {
-    return this.service.findById(id);
+  ): Promise<ProductDto> {
+    return await this.service.findActiveById(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() product: Product,
+    @Body() product: ProductUpdateDto,
   ): Promise<void> {
     await this.service.update(id, product);
   }
