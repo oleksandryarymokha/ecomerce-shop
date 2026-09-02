@@ -12,52 +12,45 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Product } from '../products/product.entity';
-import { Category } from '../products/enum/category.enum';
-import { Cart } from '../carts/cart.entity';
-import { Customer } from '../customers/customer.entity';
+import { PositionDto } from './dto/position.dto';
+import { PositionSaveDto } from './dto/position.save-dto';
+import { PositionsService } from './positions.service';
+import { PositionUpdateDto } from './dto/position.update-dto';
 
 @Controller('positions')
 export class PositionsController {
+  constructor(private readonly service: PositionsService) {}
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() position: Position): Position {
-    console.log('Saved position: ', position);
-    return position;
+  async create(@Body() position: PositionSaveDto): Promise<PositionDto> {
+    return this.service.create(position);
   }
 
   @Get()
-  getAll(@Query('cart-id', ParseIntPipe) cartId: number): Position[] {
-    const prod1 = new Product();
-    prod1.id = 1;
-    prod1.name = 'Samsung Galaxy S24';
-    prod1.category = Category.Smartphones;
-    prod1.price = 1200;
-    const cust1 = new Customer();
-    cust1.name = 'John Snow';
-    const cart1 = new Cart();
-    cart1.id = cartId;
-    cart1.customer = cust1;
-    const pos1 = new Position();
-    pos1.id = 1;
-    pos1.product = prod1;
-    pos1.quantity = 2;
-    pos1.cart = cart1;
-    return [pos1];
+  async getAll(
+    @Query('cart-id', ParseIntPipe) cartId: number,
+  ): Promise<PositionDto[]> {
+    return await this.service.getAllPositionsByCartId(cartId);
+  }
+
+  @Get(':id')
+  async getPositionById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<PositionDto> {
+    return await this.service.findPositionDtoById(id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: Position,
-  ): void {
-    console.log('Id:', id);
-    console.log('Updated position:', payload);
+    @Body() payload: PositionUpdateDto,
+  ): Promise<void> {
+    await this.service.update(id, payload);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id', ParseIntPipe) id: number): void {
-    console.log('Delete position by id: ', id);
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.delete(id);
   }
 }
