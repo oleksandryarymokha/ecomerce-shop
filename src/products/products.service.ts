@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from './product.entity';
 import { ProductsRepository } from './products.repository';
+import { ProductDto } from './dto/product.dto';
+import { ProductSaveDto } from './dto/product.save-dto';
+import { ProductsMapper } from './dto/product.mapper';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly productRepository: ProductsRepository) {}
+  constructor(
+    private readonly productRepository: ProductsRepository,
+    private readonly mapper: ProductsMapper,
+  ) {}
 
-  async create(product: Product): Promise<Product> {
-    product.isActive = true;
-    return await this.productRepository.save(product);
+  async create(productSaveDto: ProductSaveDto): Promise<ProductDto> {
+    const entity = this.mapper.mapDtoToEntity(productSaveDto);
+    entity.isActive = true;
+    await this.productRepository.save(entity);
+    return this.mapper.mapEntityToDto(entity);
   }
 
   async getAllProducts(): Promise<Product[]> {
