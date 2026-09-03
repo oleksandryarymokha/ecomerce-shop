@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { CartService } from './carts.service';
+import { CartDto } from './dto/cart.dto';
 
 @Controller('carts')
 export class CartsController {
@@ -19,18 +20,18 @@ export class CartsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() cart: Cart): Promise<Cart> {
+  async create(@Body() cart: Cart): Promise<CartDto> {
     return await this.cartService.create(cart);
   }
 
   @Get()
-  async getAll(): Promise<Cart[]> {
+  async getAll(): Promise<CartDto[]> {
     return await this.cartService.findAllCarts();
   }
 
   @Get(':id')
-  async getCartById(@Param('id', ParseIntPipe) id: number): Promise<Cart[]> {
-    return await this.cartService.findById(id);
+  async getCartById(@Param('id', ParseIntPipe) id: number): Promise<CartDto> {
+    return await this.cartService.findCartDtoById(id);
   }
 
   @Patch(':id')
@@ -44,7 +45,7 @@ export class CartsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteById(@Param('id', ParseIntPipe) id: number): void {
-    console.log('Delete id:', id);
+  async deleteById(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.cartService.delete(id);
   }
 }
