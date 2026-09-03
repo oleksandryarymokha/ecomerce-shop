@@ -20,6 +20,8 @@ export class Cart {
   @OneToMany((): typeof Position => Position, (position) => position.cart)
   positions: Position[];
 
+  isActive: boolean;
+
   // ?
   // @Column({
   //   name: 'total_price',

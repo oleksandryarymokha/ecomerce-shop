@@ -18,8 +18,8 @@ export class CartsRepository {
     return this.repository.findBy({});
   }
 
-  async findById(id: number): Promise<Cart[]> {
-    return this.repository.findBy({ id });
+  async findById(id: number): Promise<Cart | null> {
+    return this.repository.findOneBy({ id });
   }
 
   async update(id: number, cart: Cart): Promise<void> {
