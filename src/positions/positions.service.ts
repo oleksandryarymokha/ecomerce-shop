@@ -5,16 +5,31 @@ import { PositionSaveDto } from './dto/position.save-dto';
 import { PositionsMapper } from './dto/position.mapper';
 import { PositionDto } from './dto/position.dto';
 import { PositionUpdateDto } from './dto/position.update-dto';
+import { ProductsService } from 'src/products/products.service';
+import { CartService } from 'src/carts/carts.service';
+import { Cart } from 'src/carts/cart.entity';
+import { Product } from 'src/products/product.entity';
 
 @Injectable()
 export class PositionsService {
   constructor(
     private readonly mapper: PositionsMapper,
     private readonly positionRepository: PositionsRepository,
+    private readonly productService: ProductsService,
+    private readonly cartService: CartService,
   ) {}
 
   async create(positionSaveDto: PositionSaveDto): Promise<PositionDto> {
-    const position = this.mapper.mapDtoToEntity(positionSaveDto);
+    const position: Position = this.mapper.mapDtoToEntity(positionSaveDto);
+    const product: Product = await this.productService.findEntityById(
+      positionSaveDto.productId,
+    );
+    const cart: Cart = await this.cartService.findEntityById(
+      positionSaveDto.cartId,
+    );
+
+    position.product = product;
+    position.cart = cart;
     await this.positionRepository.save(position);
     return this.mapper.mapEntityToDto(position);
   }
@@ -31,6 +46,19 @@ export class PositionsService {
       throw new Error();
     }
     return foundPosition;
+  }
+
+  async findEntitiesByIds(ids: number[]): Promise<Position[]> {
+    const foundPositions: Position[] = [];
+
+    for (const id of ids) {
+      const position = await this.findEntityById(id);
+      foundPositions.push(position);
+    }
+    if (!foundPositions) {
+      throw new Error();
+    }
+    return foundPositions;
   }
 
   async getAllPositions(cartId: number): Promise<PositionDto[]> {

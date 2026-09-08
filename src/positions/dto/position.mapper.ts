@@ -20,17 +20,15 @@ export class PositionsMapper {
 
     const dto: PositionDto = new PositionDto();
     dto.id = entity.id;
-    dto.product = entity.product;
+    dto.product = this.productsMapper.mapEntityToDto(entity.product);
     dto.quantity = entity.quantity;
-    dto.cart = entity.cart;
+    dto.cart = this.cartsMapper.mapEntityToDto(entity.cart);
     return dto;
   }
 
-  mapDtoToEntity(saveDto: PositionSaveDto): Position {
+  mapDtoToEntity(savePositionDto: PositionSaveDto): Position {
     const entity: Position = new Position();
-    entity.product = this.productsMapper.mapDtoToEntity(saveDto.product);
-    entity.quantity = saveDto.quantity;
-    entity.cart = this.cartsMapper.mapDtoToEntity(saveDto.cart);
+    entity.quantity = savePositionDto.quantity;
     return entity;
   }
 

@@ -1,4 +1,3 @@
-import { Position } from './position.entity';
 import {
   Body,
   Controller,
@@ -20,6 +19,7 @@ import { PositionUpdateDto } from './dto/position.update-dto';
 @Controller('positions')
 export class PositionsController {
   constructor(private readonly service: PositionsService) {}
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() position: PositionSaveDto): Promise<PositionDto> {

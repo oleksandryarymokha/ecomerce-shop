@@ -10,6 +10,6 @@ import { CustomersMapper } from './dto/customer.mapper';
   controllers: [CustomerController],
   imports: [TypeOrmModule.forFeature([Customer])],
   providers: [CustomersService, CustomersRepository, CustomersMapper],
-  exports: [CustomersMapper],
+  exports: [CustomersMapper, CustomersService],
 })
 export class CustomerModule {}

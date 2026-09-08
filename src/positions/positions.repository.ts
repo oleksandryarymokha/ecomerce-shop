@@ -29,6 +29,14 @@ export class PositionsRepository {
     return this.repository.findOneBy({ id });
   }
 
+  async findByIds(ids: number[]): Promise<Position[] | null> {
+    return await this.repository
+      .createQueryBuilder()
+      .select()
+      .where('affiliate_id IN (:...allIds)', { ids })
+      .getMany();
+  }
+
   async deleteById(id: number): Promise<void> {
     await this.repository.delete(id);
   }
