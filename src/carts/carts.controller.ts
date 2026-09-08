@@ -13,6 +13,7 @@ import {
 import { Cart } from './cart.entity';
 import { CartService } from './carts.service';
 import { CartDto } from './dto/cart.dto';
+import { CartSaveDto } from './dto/cart.save-dto';
 
 @Controller('carts')
 export class CartsController {
@@ -20,7 +21,7 @@ export class CartsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() cart: Cart): Promise<CartDto> {
+  async create(@Body() cart: CartSaveDto): Promise<CartDto> {
     return await this.cartService.create(cart);
   }
 

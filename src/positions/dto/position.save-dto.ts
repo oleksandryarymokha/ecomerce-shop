@@ -1,8 +1,5 @@
-import { CartSaveDto } from 'src/carts/dto/cart.save-dto';
-import { ProductSaveDto } from 'src/products/dto/product.save-dto';
-
 export class PositionSaveDto {
-  product: ProductSaveDto;
+  productId: number;
   quantity: number;
-  cart: CartSaveDto;
+  cartId: number;
 }

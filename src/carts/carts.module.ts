@@ -16,6 +16,6 @@ import { CustomerModule } from 'src/customers/customers.module';
     forwardRef(() => PositionModule),
     CustomerModule,
   ],
-  exports: [CartsMapper],
+  exports: [CartsMapper, CartService],
 })
 export class CartModule {}

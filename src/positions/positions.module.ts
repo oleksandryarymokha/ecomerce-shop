@@ -16,6 +16,6 @@ import { CartModule } from 'src/carts/carts.module';
     forwardRef(() => CartModule),
     TypeOrmModule.forFeature([Position]),
   ],
-  exports: [PositionsMapper],
+  exports: [PositionsMapper, PositionsService],
 })
 export class PositionModule {}

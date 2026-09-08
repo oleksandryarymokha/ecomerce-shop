@@ -10,6 +10,6 @@ import { ProductsMapper } from './dto/product.mapper';
   controllers: [ProductsController],
   providers: [ProductsRepository, ProductsService, ProductsMapper],
   imports: [TypeOrmModule.forFeature([Product])],
-  exports: [ProductsMapper],
+  exports: [ProductsMapper, ProductsService],
 })
 export class ProductsModule {}
