@@ -4,6 +4,9 @@ import { CartDto } from './cart.dto';
 import { CartSaveDto } from './cart.save-dto';
 import { CustomersMapper } from 'src/customers/dto/customer.mapper';
 import { PositionsMapper } from 'src/positions/dto/position.mapper';
+import { Customer } from 'src/customers/customer.entity';
+import { Position } from 'src/positions/position.entity';
+import { PositionSaveDto } from 'src/positions/dto/position.save-dto';
 
 @Injectable()
 export class CartsMapper {
@@ -26,12 +29,14 @@ export class CartsMapper {
     return dto;
   }
 
-  mapDtoToEntity(saveDto: CartSaveDto): Cart {
+  mapDtoToEntity(
+    saveDto: CartSaveDto,
+    customer: Customer,
+    positions: Position[], // вопрос по типам
+  ): Cart {
     const entity: Cart = new Cart();
-    entity.customer = this.customersMapper.mapDtoToEntity(saveDto.customer);
-    entity.positions = this.positionsMapper.mapDtoListToEntityList(
-      saveDto.positions,
-    );
+    entity.customer = customer;
+    entity.positions = positions;
     return entity;
   }
 
